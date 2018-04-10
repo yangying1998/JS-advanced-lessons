@@ -1,92 +1,58 @@
-var x=45;
-var obj={
-	x:23,
-test:function(){
-	function foo(){
-	console.log(this.x);
-}
-var fee=foo.bind(this);
-fee();
-}
-}
-obj.test();
-// 23
+(function max(x,y){
+	return x>y?x:y;
+}(2,3));
+//3
 
+(function max(x,y){
+	return x>y?x:y;
+})
+(2,3);
+//3
 
-var x=45;
-var obj={
-	x:23,
-test:function(){
-	function foo(){
-	console.log(this.x);
-}
-var fee=foo.bind(this);
-fee();
-foo();
-}
-}
-obj.test();
+true &&function(a,b){
+	return a>b?a:b;
+}(5,9);
+//9
 
-// 23
- //45
+0 &&function(a,b){
+	return a>b?a:b;
+}(5,9);
+//0
 
- console.log(typeof (new new Function()));
-// object
+!function(x,y){
+	return x==y?true:false;
+}("5",5);
+//false
 
+!function(x,y){
+	return x===y?true:false;
+}("5",5);
+//true
 
-var obj1={
-foo:function(y){
-console.log(this.x,y);
+function f(){
+var getNumFuncs=[];
+for(var i=0;i<10;i++){
+	getNumFuncs[i]=function(){
+		return i;
 }
 }
-var obj2={
-x:34
+	return getNumFuncs;
 }
-obj1.foo.call(obj2,"xx");
-// 34 "xx"
+var tmp=f();
+tmp[3]();
+//10
 
-console.log(a);
-var a=2;
-console.log(a);
-// undefined
-// 2
-
-console.log(foo);
-var foo=function(){
-console.log("foo");
+function f(){
+var getNumFuncs=[];
+for(var i=0;i<10;i++){
+(function(j){
+	getNumFuncs[j]=function(){
+		return j;
 }
-foo();
-// undefined
-// foo
-
-
-AA();
-function AA(){
-console.log("AA_1");
+}(i));
 }
-// AA_1
-
-var AA=function AA(){
-console.log("AA_2");
+	return getNumFuncs;
 }
-AA();
-// AA_2
-
-var name="Jack";
-function echo(){
-console.log(name);
-}
-function foo(){
-var name="Bill";
-echo();
-}
-foo();
-// Jack
-
-
-
-
-
-
-
-
+var tmp=f();
+tmp[3]();
+//3
