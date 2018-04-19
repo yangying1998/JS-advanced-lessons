@@ -126,6 +126,26 @@ p1.age=178;
 //请设置正常年龄
 
 
+var o={
+x:12,
+}
+o.__proto__===Object.prototype;
+//true
+
+var o2=Object.create(o);
+o2.__proto__===o;
+//true
+
+var Person=function(name){
+this.name=name;
+}
+var p=new Person('abc');
+p.__proto__===Person.prototype;
+//true
+Person .__proto__.__proto__.__proto__===null;
+//true
+
+
 
 
 
