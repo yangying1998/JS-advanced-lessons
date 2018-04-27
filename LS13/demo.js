@@ -1,136 +1,119 @@
-var obj1={x:1};
-var obj2=Object.create(obj1);
-var Obj3=function(){}
-var obj3=new Obj3;
-
-function Person(age,name){
-this.age=age;
-this.name=name;
+var a=1;
+function f1(){
+var b=2;
+function f2(){
+console.log(a,b);
 }
-var p1=new Person(20,'abc');
-var p2=new Person(19,'def');
-p1 instanceof Person;
+f2();
+}
+f1();
+// 1 2
+
+
+
+function thisTest(){
+console.log(this===window);
+}
+thisTest();
 //true
 
-
-var a={};
-a.__proto__;
-//{constructor: ƒ, __defineGetter__: ƒ, __defineSetter__: ƒ, hasOwnProperty: ƒ, __lookupGetter__: ƒ, …}
-a.__proto__===Object.prototype;
-//true
-var b=new Object;
-b.__proto__===Object.prototype;
-//true
-b.__proto__.__proto__;
-//Object.prototype.__proto__
-//null
+var a=10,b='Hi';
+function thisTest(){
+this.a=20;
+delete this.b;
+this.c='新添加的全局变量';
+}
+thisTest();
+console.log(a,c);
+//20 新添加的全局变量
 
 
+var point={
+x:0,
+y:0,
+moveTo:function(x,y){
+this.x=x;
+this.y=y;
+}
+}
+point.moveTo(1,1);//this绑定到当前对象，即point对象
+console.log(point);
+//{x: 1, y: 1, moveTo: ƒ}
 
-var obj1={x:1};
-var obj2=Object.create(obj1);
-obj2.y=2;
-var obj3=Object.create(obj1);
-obj3.y=3;
-console.log(obj1,obj2,obj3);
-// {x: 1} {y: 2} {y: 3}
-obj3.x
-//1
-obj2.__proto__.x=5;
-//5
-obj3.x;
-//5
 
-var proObj = {
-    z:3
-};
-var obj = Object.create(proObj);
-obj.x = 1;
-obj.y = 2;
-console.log(obj.x); //1
-console.log(obj.y); //2
-console.log(obj.z); //3
-
-"z" in obj; //true
-obj.hasOwnProperty("z"); //false
-obj.z = 5;
-obj.hasOwnProperty('z'); // true
-obj.z; // 5
-proObj.z; // still 3
-obj.z = 8;
-obj.z; // 8
-delete obj.z; // true
-obj.z; // 此时是几？
-delete obj.z; // true
-obj.z; // still 3!!!
-
-VM1147:7 1
-VM1147:8 2
-VM1147:9 3
-3
-var proObj = {
-    z:3
-};
-
-var obj = Object.create(proObj);
-obj.x = 1;
-obj.y = 2;
-
-console.log(obj.x);//1
-console.log(obj.y);//2
-console.log(obj.z);//3
-
-console.log("z" in obj);//true
-console.log(obj.hasOwnProperty("z"));//false
-
-/////Part2 原型链属性操作///
-obj.z = 5;
-
-console.log(obj.hasOwnProperty("z"));
-console.log(obj.z);
-console.log(proObj.z);
-
-obj.z = 8;
-console.log(obj.z);
-
-delete obj.z;//true
-console.log(obj.z);
-
-delete obj.z;//true
-console.log(obj.z);//still 3
-
-//如何删除原型上的属性
-delete  obj.__proto__.z;//或者delete proObj.z;
-console.log(obj.z);//此时彻底没有z了
-// 1
-// 2
-// 3
-// true
-//false
-// true
-// 5
-// 3
-// 8
-// 3
-// 3
+function person(age){
+this.age=age;
+}
+var p=new person(23);
 //undefined
+p.age
+//23
 
-function Person(name,age){
+
+var person=function(name,age){
 this.name=name;
 this.age=age;
+this.showMe=function(){
+console.log(this.name,this.age);}
 }
-Person.prototype.sayHi=function(){
-console.log(this.name,this.age);
-}
-var p=new Person('Mike',23);
-p.sayHi();
+var p1=new person('Mike',23);
+var p2=new person('Lucy',22);
+p1.showMe();
+p2.showMe();
 // Mike 23
-p.__proto__===Person.prototype
-//true
-Person.__proto__===Function.prototype;
-//true
-Person.__proto__.__proto__===Object.prototype;
-//true
-Person.__proto__.__proto__.__proto__;
-//null
+// Lucy 22
+
+
+
+objA={name:'AA',x:1};
+objB={name:'BB',x:5};
+function test(){console.log(this.name,this.x);}
+objA.fun=test;
+objA.fun();
+objA.fun.call(objB);
+// AA 1
+// BB 5
+
+
+var point={
+x:0,
+y:0,
+moveTo:function(x,y){
+function moveTox(x){
+this.x=x;
+}
+function moveToy(y){
+this.y=y;
+}
+moveTox(x); 
+moveToy(y);}
+}
+point.moveTo(2,2);
+console.log(point);
+console.log(window.x,window.y);
+// {x: 0, y: 0, moveTo: ƒ}
+// 2 2
+
+
+var point={
+	x:0,
+	y:0,
+	moveTo:function(x,y){
+		var that=this;
+		function moveTox(x){
+			that.x=x;
+		}
+		function moveToy(y){
+			that.y=y;
+		}
+	moveTox(x);
+	moveToy(y);}
+	}
+point.moveTo(2,2);
+console.log(point);
+console.log(window.x,window.y);
+
+// {x: 2, y: 2, moveTo: ƒ}
+// 2 2
+
 
